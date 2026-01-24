@@ -1,0 +1,4 @@
+project_id = "gnoyrvrslxiwjjralcap"
+
+[functions.analyze-resumes]
+verify_jwt = false
