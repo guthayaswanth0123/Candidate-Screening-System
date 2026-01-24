@@ -36,25 +36,17 @@ const Index = () => {
   }, []);
 
   const extractTextFromFile = async (file: File): Promise<string> => {
-    // For PDF and DOCX, we'll send the raw text content
-    // In a production app, you'd use proper PDF/DOCX parsing libraries
-    // For now, we'll read text files directly and handle binary files specially
-    
     if (file.type === "text/plain" || file.name.endsWith(".txt")) {
       return await file.text();
     }
     
-    // For PDF/DOCX, we'll read as text (this is a simplified approach)
-    // In production, you'd use a proper document parser
     try {
       const text = await file.text();
-      // Basic cleanup for binary artifacts
       const cleanedText = text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, " ")
         .replace(/\s+/g, " ")
         .trim();
       
       if (cleanedText.length < 50) {
-        // If we couldn't extract meaningful text, return a placeholder
         return `Resume file: ${file.name}. Note: For best results with PDF/DOCX files, please paste the resume text directly or use a text file.`;
       }
       
@@ -73,7 +65,6 @@ const Index = () => {
     setResult(null);
     
     try {
-      // Stage 1: Extract text from files
       setAnalysisProgress({
         stage: "extracting",
         progress: 10,
@@ -91,7 +82,6 @@ const Index = () => {
           currentFile: file.name,
         });
         
-        // Update file status
         setFiles((prev) =>
           prev.map((f) =>
             f.id === file.id ? { ...f, status: "processing" } : f
@@ -108,11 +98,10 @@ const Index = () => {
         );
       }
 
-      // Stage 2: AI Analysis
       setAnalysisProgress({
         stage: "analyzing",
         progress: 40,
-        message: "AI is analyzing resumes against job requirements...",
+        message: "Performing intelligent analysis on resumes...",
       });
 
       const response = await fetch(
@@ -143,7 +132,6 @@ const Index = () => {
 
       const analysisResult = await response.json();
 
-      // Transform to our Candidate type
       const candidates: Candidate[] = analysisResult.candidates.map(
         (c: any, index: number) => ({
           id: crypto.randomUUID(),
@@ -163,7 +151,6 @@ const Index = () => {
         })
       );
 
-      // Sort by job fit score
       candidates.sort((a, b) => b.jobFitScore - a.jobFitScore);
 
       setAnalysisProgress({
@@ -189,7 +176,6 @@ const Index = () => {
       });
       toast.error(error instanceof Error ? error.message : "Failed to analyze resumes");
       
-      // Reset file statuses on error
       setFiles((prev) =>
         prev.map((f) => ({ ...f, status: "pending" }))
       );
@@ -211,7 +197,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container max-w-5xl mx-auto px-4 py-8">
+      <div className="container max-w-6xl mx-auto px-4 py-8">
         <Header />
 
         <AnimatePresence mode="wait">
@@ -239,12 +225,13 @@ const Index = () => {
         </AnimatePresence>
 
         {/* Footer */}
-        <footer className="mt-16 text-center text-sm text-muted-foreground">
+        <footer className="mt-16 pt-8 border-t border-border/50 text-center text-sm text-muted-foreground">
+          <p className="font-medium text-foreground mb-2">ResumeIQ Pro</p>
           <p>
-            AI Resume Analyzer • Semantic Matching • Skill Extraction
+            Intelligent Resume Analysis • Skill Matching • Candidate Ranking
           </p>
-          <p className="mt-1">
-            Built with React, TypeScript, and Lovable AI
+          <p className="mt-2">
+            © {new Date().getFullYear()} All Rights Reserved
           </p>
         </footer>
       </div>
