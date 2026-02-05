@@ -1,73 +1,187 @@
-# Welcome to your Lovable project
+AI Resume Analyzer & Screening System
 
-## Project info
+An intelligent web application that analyzes resumes using AI, NLP, and Machine Learning to match candidates with job descriptions.
+The system supports two roles — Candidate and Recruiter — and provides automated resume scoring, skill matching, ATS analysis, and candidate comparison dashboards.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+🚀 Features
+Candidate (User) Panel
 
-## How can I edit this code?
+User Registration & Login
 
-There are several ways of editing your application.
+Upload Resume (PDF / DOCX / Text)
 
-**Use Lovable**
+Paste or Upload Job Description
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Resume vs JD Match Score
 
-Changes made via Lovable will be committed automatically to this repo.
+Skill Match & Missing Skills Detection
 
-**Use your preferred IDE**
+ATS Compatibility Score
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Resume Improvement Suggestions
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Charts & Graphs Visualization
 
-Follow these steps:
+Role Prediction (Data Scientist / ML Engineer / SDE etc.)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+Download Resume Analysis Report
+
+Recruiter (HR) Panel
+
+Recruiter Registration & Login
+
+Post Job Descriptions
+
+Upload Multiple Resumes
+
+Automated Resume Screening
+
+Candidate Ranking & Shortlisting
+
+Skill & Experience Comparison
+
+ATS Score Breakdown
+
+Project & Certification Analysis
+
+Resume Heatmap
+
+Interview Question Suggestions
+
+Export Candidate Reports
+
+🧠 AI / NLP Capabilities
+
+Resume Parsing
+
+Skill Extraction
+
+Named Entity Recognition (NER)
+
+Keyword Matching
+
+Cosine Similarity Scoring
+
+Role Classification
+
+ATS Optimization Logic
+
+🛠 Tech Stack
+Frontend
+
+React
+
+TypeScript
+
+Tailwind CSS
+
+shadcn-ui
+
+Chart.js / Plotly (for graphs)
+
+Backend
+
+Python
+
+Flask / Django
+
+REST APIs
+
+AI / NLP Libraries
+
+spaCy
+
+Scikit-learn
+
+NLTK
+
+Sentence-Transformers
+
+TF-IDF / Embeddings
+
+Database
+
+PostgreSQL / MySQL / MongoDB
+
+Deployment
+
+Vercel / Render / Railway / AWS
+
+📂 Project Structure (Frontend)
+src/
+ ├── pages/
+ │   ├── Login.tsx
+ │   ├── UserDashboard.tsx
+ │   ├── RecruiterDashboard.tsx
+ │   ├── AnalyzeResult.tsx
+ │   └── CompareCandidates.tsx
+ ├── components/
+ │   ├── ResumeUpload.tsx
+ │   ├── SkillChart.tsx
+ │   ├── CandidateTable.tsx
+ │   └── ATSMeter.tsx
+ └── App.tsx
+
+⚙️ Installation & Setup
+Prerequisites
+
+Node.js
+
+npm
+
+Python 3.9+
+
+Git
+
+Frontend Setup
 git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+cd <PROJECT_NAME>
+npm install
 npm run dev
-```
 
-**Edit a file directly in GitHub**
+Backend Setup
+cd backend
+pip install -r requirements.txt
+python app.py
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+📊 Scoring Logic (Example)
+Total Score =
+  Skill Match (40%)
++ Experience Match (25%)
++ Project Relevance (20%)
++ Education Match (10%)
++ ATS Format (5%)
 
-**Use GitHub Codespaces**
+🎯 Target Roles
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Data Scientist
 
-## What technologies are used for this project?
+Machine Learning Engineer
 
-This project is built with:
+Data Analyst
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Software Development Engineer (SDE)
 
-## How can I deploy this project?
+Backend Developer
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+🔮 Future Enhancements
 
-## Can I connect a custom domain to my Lovable project?
+LinkedIn Profile Analyzer
 
-Yes, you can!
+Voice Resume Analysis
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Chatbot Career Assistant
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Salary Prediction
+
+Real-time Email Notifications
+
+Plagiarism Detection
+
+🤝 Contribution
+
+Pull requests are welcome. For major changes, open an issue first to discuss what you would like to change.
+
+📄 License
+
+This project is for educational and portfolio purposes.
