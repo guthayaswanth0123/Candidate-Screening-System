@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, LogIn, FileSearch } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, LogIn, FileSearch, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,25 +10,25 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const loginSchema = z.object({
-  email: z.string().trim().email("Invalid email address").max(150, "Email too long"),
+  identifier: z.string().trim().min(2, "Enter your email or name").max(150, "Input too long"),
   password: z.string().min(6, "Password must be at least 6 characters").max(72, "Password too long"),
 });
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ identifier?: string; password?: string }>({});
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
   const validateForm = () => {
-    const result = loginSchema.safeParse({ email, password });
+    const result = loginSchema.safeParse({ identifier, password });
     if (!result.success) {
-      const fieldErrors: { email?: string; password?: string } = {};
+      const fieldErrors: { identifier?: string; password?: string } = {};
       result.error.errors.forEach((err) => {
-        if (err.path[0] === "email") fieldErrors.email = err.message;
+        if (err.path[0] === "identifier") fieldErrors.identifier = err.message;
         if (err.path[0] === "password") fieldErrors.password = err.message;
       });
       setErrors(fieldErrors);
@@ -44,7 +44,7 @@ const Login = () => {
     if (!validateForm()) return;
 
     setLoading(true);
-    const { error } = await signIn(email.trim(), password);
+    const { error } = await signIn(identifier.trim(), password);
     setLoading(false);
 
     if (error) {
@@ -86,33 +86,41 @@ const Login = () => {
           </CardHeader>
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4">
-              {/* Email Field */}
+              {/* Identifier Field (Email or Name) */}
               <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-foreground">
-                  Email Address
+                <label htmlFor="identifier" className="text-sm font-medium text-foreground">
+                  Email or Name
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={`pl-10 ${errors.email ? "border-destructive" : ""}`}
+                    id="identifier"
+                    type="text"
+                    placeholder="name@example.com or John Doe"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    className={`pl-10 ${errors.identifier ? "border-destructive" : ""}`}
                     disabled={loading}
                   />
                 </div>
-                {errors.email && (
-                  <p className="text-sm text-destructive">{errors.email}</p>
+                {errors.identifier && (
+                  <p className="text-sm text-destructive">{errors.identifier}</p>
                 )}
               </div>
 
               {/* Password Field */}
               <div className="space-y-2">
-                <label htmlFor="password" className="text-sm font-medium text-foreground">
-                  Password
-                </label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="password" className="text-sm font-medium text-foreground">
+                    Password
+                  </label>
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-primary hover:underline"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
