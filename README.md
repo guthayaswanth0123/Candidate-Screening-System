@@ -1,70 +1,73 @@
-AI Resume Analyzer & Screening System
+🧠 AI Resume Analyzer & Candidate Screening System
 
-An intelligent web application that analyzes resumes using AI, NLP, and Machine Learning to match candidates with job descriptions.
-The system supports two roles — Candidate and Recruiter — and provides automated resume scoring, skill matching, ATS analysis, and candidate comparison dashboards.
+An Intelligent AI-Powered Web Application that analyzes resumes using Natural Language Processing (NLP), Machine Learning, and ATS Logic to match candidates with job descriptions and assist recruiters in automated screening.
 
-🚀 Features
-Candidate (User) Panel
+The platform provides two dedicated portals — Candidate & Recruiter, enabling smart resume scoring, skill gap detection, and candidate ranking dashboards.
 
-User Registration & Login
+🚀 Key Features
+👤 Candidate Panel
 
-Upload Resume (PDF / DOCX / Text)
+Secure User Registration & Login
+
+Upload Resume (PDF / DOCX / TXT)
 
 Paste or Upload Job Description
 
-Resume vs JD Match Score
+Resume vs Job Description Match Score
 
-Skill Match & Missing Skills Detection
+Skill Match & Missing Skill Detection
 
 ATS Compatibility Score
 
-Resume Improvement Suggestions
+AI Resume Improvement Suggestions
 
-Charts & Graphs Visualization
+Interactive Charts & Graphs
 
 Role Prediction (Data Scientist / ML Engineer / SDE etc.)
 
-Download Resume Analysis Report
+Download Resume Analysis Report (PDF)
 
-Recruiter (HR) Panel
+🧑‍💼 Recruiter (HR) Panel
 
-Recruiter Registration & Login
+Recruiter Registration & Authentication
 
 Post Job Descriptions
 
-Upload Multiple Resumes
+Upload Multiple Candidate Resumes
 
 Automated Resume Screening
 
 Candidate Ranking & Shortlisting
 
-Skill & Experience Comparison
+Skill, Experience & Education Comparison
 
-ATS Score Breakdown
+Detailed ATS Score Breakdown
 
 Project & Certification Analysis
 
-Resume Heatmap
+Resume Heatmap Visualization
 
-Interview Question Suggestions
+AI-Generated Interview Questions
 
 Export Candidate Reports
 
 🧠 AI / NLP Capabilities
 
-Resume Parsing
+Resume Parsing & Tokenization
 
-Skill Extraction
+Skill Extraction & Keyword Matching
 
 Named Entity Recognition (NER)
 
-Keyword Matching
-
 Cosine Similarity Scoring
 
-Role Classification
+Role Classification Model
 
 ATS Optimization Logic
+
+Semantic Embedding Comparison
+
+Experience & Project Relevance Detection
 
 🛠 Tech Stack
 Frontend
@@ -77,7 +80,7 @@ Tailwind CSS
 
 shadcn-ui
 
-Chart.js / Plotly (for graphs)
+Chart.js / Plotly (Visualizations)
 
 Backend
 
@@ -101,40 +104,21 @@ TF-IDF / Embeddings
 
 Database
 
-PostgreSQL / MySQL / MongoDB
-
-Deployment
-
-Vercel / Render / Railway / AWS
-
-📂 Project Structure (Frontend)
-src/
- ├── pages/
- │   ├── Login.tsx
- │   ├── UserDashboard.tsx
- │   ├── RecruiterDashboard.tsx
- │   ├── AnalyzeResult.tsx
- │   └── CompareCandidates.tsx
- ├── components/
- │   ├── ResumeUpload.tsx
- │   ├── SkillChart.tsx
- │   ├── CandidateTable.tsx
- │   └── ATSMeter.tsx
- └── App.tsx
+MySQL
 
 ⚙️ Installation & Setup
 Prerequisites
 
 Node.js
 
-npm
+npm / yarn
 
 Python 3.9+
 
 Git
 
 Frontend Setup
-git clone <YOUR_GIT_URL>
+git clone <YOUR_GITHUB_URL>
 cd <PROJECT_NAME>
 npm install
 npm run dev
@@ -144,15 +128,16 @@ cd backend
 pip install -r requirements.txt
 python app.py
 
-📊 Scoring Logic (Example)
+📊 Resume Scoring Logic (Example)
 Total Score =
   Skill Match (40%)
 + Experience Match (25%)
 + Project Relevance (20%)
 + Education Match (10%)
 + ATS Format (5%)
+This weighted scoring ensures fair and balanced candidate evaluation.
 
-🎯 Target Roles
+🎯 Supported Target Roles
 
 Data Scientist
 
@@ -168,20 +153,33 @@ Backend Developer
 
 LinkedIn Profile Analyzer
 
-Voice Resume Analysis
+Voice-Based Resume Analysis
 
-Chatbot Career Assistant
+AI Career Chatbot Assistant
 
-Salary Prediction
+Salary Prediction Model
 
-Real-time Email Notifications
+Real-Time Email Notifications
 
-Plagiarism Detection
+Resume Plagiarism Detection
+
+Company-Specific JD Training Models
 
 🤝 Contribution
 
-Pull requests are welcome. For major changes, open an issue first to discuss what you would like to change.
+Contributions are welcome!
+
+Fork the repository
+
+Create a new branch
+
+Commit changes
+
+Submit Pull Request
+
+For major updates, please open an issue first.
 
 📄 License
 
-This project is for educational and portfolio purposes.
+This project is intended for Educational & Portfolio Use Only.
+Free to explore, learn, and enhance.
