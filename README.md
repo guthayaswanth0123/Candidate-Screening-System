@@ -1,100 +1,110 @@
-🧠 AI Resume Analyzer & Candidate Screening System
+# 🧠 AI Resume Analyzer & Candidate Screening System
 
-An Intelligent AI-Powered Web Application that analyzes resumes using Natural Language Processing (NLP), Machine Learning, and ATS Logic to match candidates with job descriptions and assist recruiters in automated screening.
-The platform provides two dedicated portals — Candidate & Recruiter, enabling smart resume scoring, skill gap detection, and candidate ranking dashboards.
+An **Intelligent AI-Powered Web Application** that analyzes resumes using **NLP, Machine Learning, and ATS Logic** to match candidates with job descriptions and assist recruiters in automated screening.
 
-🚀 Key Features
-👤 Candidate Panel
+The platform provides **two dedicated portals — Candidate & Recruiter**, enabling smart resume scoring, skill gap detection, and candidate ranking dashboards.
 
--> Secure User Registration & Login
--> Upload Resume (PDF / DOCX / TXT)
--> Paste or Upload Job Description
--> Resume vs Job Description Match Score
--> Skill Match & Missing Skill Detection
--> ATS Compatibility Score
--> AI Resume Improvement Suggestions
--> Interactive Charts & Graphs
--> Role Prediction (Data Scientist / ML Engineer / SDE etc.)
--> Download Resume Analysis Report (PDF)
+---
 
-🧑‍💼 Recruiter (HR) Panel
+## 🚀 Key Features
 
--> Recruiter Registration & Authentication
--> Post Job Descriptions
--> Upload Multiple Candidate Resumes
--> Automated Resume Screening
--> Candidate Ranking & Shortlisting
--> Skill, Experience & Education Comparison
--> Detailed ATS Score Breakdown
--> Project & Certification Analysis
--> Resume Heatmap Visualization
--> AI-Generated Interview Questions
--> Export Candidate Reports
+### 👤 Candidate Panel
+- Secure User Registration & Login  
+- Upload Resume (PDF / DOCX / TXT)  
+- Paste or Upload Job Description  
+- Resume vs Job Description Match Score  
+- Skill Match & Missing Skill Detection  
+- ATS Compatibility Score  
+- AI Resume Improvement Suggestions  
+- Interactive Charts & Graphs  
+- Role Prediction (Data Scientist / ML Engineer / SDE etc.)  
+- Download Resume Analysis Report (PDF)
 
-🧠 AI /ML/ NLP Capabilities
+---
 
--> Resume Parsing & Tokenization
--> Skill Extraction & Keyword Matching
--> Named Entity Recognition (NER)
--> Cosine Similarity Scoring
--> Role Classification Model
--> ATS Optimization Logic
--> Semantic Embedding Comparison
--> Experience & Project Relevance Detection
+### 🧑‍💼 Recruiter (HR) Panel
+- Recruiter Registration & Authentication  
+- Post Job Descriptions  
+- Upload Multiple Candidate Resumes  
+- Automated Resume Screening  
+- Candidate Ranking & Shortlisting  
+- Skill, Experience & Education Comparison  
+- Detailed ATS Score Breakdown  
+- Project & Certification Analysis  
+- Resume Heatmap Visualization  
+- AI-Generated Interview Questions  
+- Export Candidate Reports
 
-🛠 Tech Stack
-Frontend
+---
 
--> React
--> TypeScript
--> Tailwind CSS
--> shadcn-ui
--> Chart.js / Plotly (Visualizations)
+## 🧠 AI / ML / NLP Capabilities
+- Resume Parsing & Tokenization  
+- Skill Extraction & Keyword Matching  
+- Named Entity Recognition (NER)  
+- Cosine Similarity Scoring  
+- Role Classification Model  
+- ATS Optimization Logic  
+- Semantic Embedding Comparison  
+- Experience & Project Relevance Detection
 
-Backend
+---
 
--> Python
--> Flask / Django
--> REST APIs
+## 🛠 Tech Stack
 
-AI /ML/ NLP Libraries
+### Frontend
+- React  
+- TypeScript  
+- Tailwind CSS  
+- shadcn-ui  
+- Chart.js / Plotly  
 
--> spaCy
--> Scikit-learn
--> NLTK
--> Sentence-Transformers
--> TF-IDF / Embeddings
+### Backend
+- Python  
+- Flask / Django  
+- REST APIs  
 
-Database
+### AI / ML / NLP Libraries
+- spaCy  
+- Scikit-learn  
+- NLTK  
+- Sentence-Transformers  
+- TF-IDF / Embeddings  
 
--> MySQL
+### Database
+- MySQL  
 
-⚙️ Installation & Setup
-Prerequisites
+---
 
-Node.js
-npm / yarn
-Python 3.9+
-Git
+## ⚙️ Installation & Setup
 
-Frontend Setup
+### Prerequisites
+- Node.js  
+- npm / yarn  
+- Python 3.9+  
+- Git  
+
+### Frontend Setup
+```bash
 git clone <YOUR_GITHUB_URL>
 cd <PROJECT_NAME>
 npm install
 npm run dev
 
 Backend Setup
+
 cd backend
 pip install -r requirements.txt
 python app.py
 
-📊 Resume Scoring Logic (Example)
+📊 Resume Scoring Logic
+
 Total Score =
   Skill Match (40%)
 + Experience Match (25%)
 + Project Relevance (20%)
 + Education Match (10%)
 + ATS Format (5%)
+
 This weighted scoring ensures fair and balanced candidate evaluation.
 
 🎯 Supported Target Roles
@@ -114,7 +124,6 @@ Salary Prediction Model
 Real-Time Email Notifications
 Resume Plagiarism Detection
 Company-Specific JD Training Models
-
 
 📄 License
 
