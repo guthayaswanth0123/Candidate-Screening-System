@@ -226,7 +226,7 @@ const Index = () => {
 
         {/* Footer */}
         <footer className="mt-16 pt-8 border-t border-border/50 text-center text-sm text-muted-foreground">
-          <p className="font-medium text-foreground mb-2">ResumeIQ Pro</p>
+          <p className="font-medium text-foreground mb-2">Candidate Screening System</p>
           <p>
             Intelligent Resume Analysis • Skill Matching • Candidate Ranking
           </p>
