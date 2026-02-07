@@ -13,6 +13,7 @@ interface ResumeData {
 interface AnalysisRequest {
   jobDescription: string;
   resumes: ResumeData[];
+  mode: "candidate" | "recruiter";
 }
 
 serve(async (req) => {
@@ -21,7 +22,7 @@ serve(async (req) => {
   }
 
   try {
-    const { jobDescription, resumes } = (await req.json()) as AnalysisRequest;
+    const { jobDescription, resumes, mode = "recruiter" } = (await req.json()) as AnalysisRequest;
     
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
@@ -35,7 +36,29 @@ serve(async (req) => {
       );
     }
 
-    const systemPrompt = `You are an expert HR analyst and technical recruiter. Your task is to analyze resumes against a job description and provide detailed scoring and analysis.
+    const isCandidateMode = mode === "candidate";
+
+    const systemPrompt = isCandidateMode
+      ? `You are an expert career counselor and resume analyst. Your task is to analyze a single resume against a job description and provide detailed, actionable feedback to help the candidate improve their chances.
+
+For the resume, you must analyze:
+1. Candidate name and email (if found)
+2. Skills present in the resume that match the JD
+3. Skills missing from the resume that the JD requires
+4. Extra/additional skills the candidate has beyond what the JD asks for
+5. Relevant work experience
+6. Relevant projects
+7. ATS compatibility assessment
+8. Specific improvement suggestions
+
+Scoring methodology:
+- Job Fit Score (0-100): Weighted combination of semantic similarity (40%) + skill match (30%) + experience relevance (20%) + ATS format (10%)
+- Semantic Score (0-100): How well the resume content aligns with the JD requirements
+- Skill Match Score (0-100): Percentage of required skills found in the resume
+- ATS Score (0-100): How well-formatted the resume is for ATS systems
+
+Be thorough, fair, and constructive. The goal is to help the candidate improve.`
+      : `You are an expert HR analyst and technical recruiter. Your task is to analyze resumes against a job description and provide detailed scoring and analysis.
 
 For each resume, you must extract and analyze:
 1. Candidate name and email (if found)
@@ -46,23 +69,45 @@ For each resume, you must extract and analyze:
 
 Scoring methodology:
 - Job Fit Score (0-100): Weighted average of semantic similarity (60%) and skill match (40%)
-- Semantic Score (0-100): How well the resume content aligns with the job description's requirements, responsibilities, and domain
+- Semantic Score (0-100): How well the resume content aligns with the job description's requirements
 - Skill Match Score (0-100): Percentage of required skills found in the resume
 
 Be thorough but fair in your analysis. Look for both explicit mentions and implicit evidence of skills.`;
 
-    const userPrompt = `Analyze the following resumes against this job description.
+    const candidateResponseFormat = `Return a JSON object with this exact structure (no markdown, just raw JSON):
+{
+  "requiredSkills": ["skill1", "skill2", ...],
+  "candidates": [
+    {
+      "fileName": "original filename",
+      "name": "Candidate Name or 'Unknown'",
+      "email": "email@example.com or empty string",
+      "jobFitScore": 75,
+      "semanticScore": 80,
+      "skillMatchScore": 65,
+      "atsScore": 70,
+      "matchedSkills": ["skill1", "skill2"],
+      "missingSkills": ["skill3", "skill4"],
+      "extraSkills": ["additional_skill1", "additional_skill2"],
+      "relevantExperience": ["Experience point 1"],
+      "relevantProjects": ["Project description 1"],
+      "summary": "Brief 2-sentence summary of the candidate's fit",
+      "improvementSuggestions": [
+        "Add keywords like 'machine learning' and 'deep learning' to your skills section",
+        "Quantify your achievements with numbers and metrics",
+        "Include more action verbs like 'designed', 'implemented', 'optimized'"
+      ],
+      "atsTips": [
+        "Use standard section headings like 'Experience', 'Education', 'Skills'",
+        "Avoid tables and complex formatting",
+        "Include the exact job title from the JD in your resume"
+      ],
+      "missingKeywords": ["keyword1", "keyword2"]
+    }
+  ]
+}`;
 
-JOB DESCRIPTION:
-${jobDescription}
-
-RESUMES TO ANALYZE:
-${resumes.map((r, i) => `
---- RESUME ${i + 1}: ${r.fileName} ---
-${r.resumeText}
-`).join("\n")}
-
-Return a JSON object with this exact structure (no markdown, just raw JSON):
+    const recruiterResponseFormat = `Return a JSON object with this exact structure (no markdown, just raw JSON):
 {
   "requiredSkills": ["skill1", "skill2", ...],
   "candidates": [
@@ -80,10 +125,24 @@ Return a JSON object with this exact structure (no markdown, just raw JSON):
       "summary": "Brief 2-sentence summary of the candidate's fit"
     }
   ]
-}
+}`;
+
+    const userPrompt = `Analyze the following resume${resumes.length > 1 ? 's' : ''} against this job description.
+
+JOB DESCRIPTION:
+${jobDescription}
+
+RESUME${resumes.length > 1 ? 'S' : ''} TO ANALYZE:
+${resumes.map((r, i) => `
+--- RESUME ${i + 1}: ${r.fileName} ---
+${r.resumeText}
+`).join("\n")}
+
+${isCandidateMode ? candidateResponseFormat : recruiterResponseFormat}
 
 Extract the required skills from the job description first, then analyze each resume against those skills.
-Sort candidates by jobFitScore descending (best fit first).`;
+Sort candidates by jobFitScore descending (best fit first).
+${isCandidateMode ? 'For extraSkills, identify skills the candidate has that are NOT in the job description but could be valuable. For improvementSuggestions, provide 3-5 specific, actionable tips. For atsTips, provide 2-4 ATS optimization tips. For missingKeywords, list important keywords from the JD not found in the resume.' : ''}`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -130,10 +189,8 @@ Sort candidates by jobFitScore descending (best fit first).`;
       throw new Error("No response from AI");
     }
 
-    // Parse the JSON response, handling potential markdown code blocks
     let analysisResult;
     try {
-      // Remove markdown code blocks if present
       let cleanContent = content.trim();
       if (cleanContent.startsWith("```json")) {
         cleanContent = cleanContent.slice(7);
