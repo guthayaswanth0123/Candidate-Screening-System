@@ -73,7 +73,7 @@ const Login = () => {
           >
             <FileSearch className="h-8 w-8 text-primary" />
           </motion.div>
-          <h1 className="text-2xl font-bold text-foreground">ResumeIQ Pro</h1>
+          <h1 className="text-2xl font-bold text-foreground">Candidate Screening System</h1>
           <p className="text-muted-foreground mt-1">Intelligent Resume Analysis</p>
         </div>
 
@@ -181,7 +181,7 @@ const Login = () => {
         </Card>
 
         <p className="text-center text-xs text-muted-foreground mt-6">
-          © {new Date().getFullYear()} ResumeIQ Pro. All rights reserved.
+          © {new Date().getFullYear()} Candidate Screening System. All rights reserved.
         </p>
       </motion.div>
     </div>

@@ -37,7 +37,7 @@ export function Header() {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-accent/60 flex items-center justify-center">
             <Brain className="h-5 w-5 text-accent-foreground" />
           </div>
-          <span className="font-bold text-xl text-foreground">ResumeIQ Pro</span>
+          <span className="font-bold text-xl text-foreground">Candidate Screening System</span>
         </div>
 
         <DropdownMenu>

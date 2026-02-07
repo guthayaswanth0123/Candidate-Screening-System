@@ -90,7 +90,7 @@ const Signup = () => {
           >
             <FileSearch className="h-8 w-8 text-primary" />
           </motion.div>
-          <h1 className="text-2xl font-bold text-foreground">ResumeIQ Pro</h1>
+          <h1 className="text-2xl font-bold text-foreground">Candidate Screening System</h1>
           <p className="text-muted-foreground mt-1">Create Your Account</p>
         </div>
 
