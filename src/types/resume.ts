@@ -7,11 +7,16 @@ export interface Candidate {
   jobFitScore: number;
   semanticScore: number;
   skillMatchScore: number;
+  atsScore?: number;
   matchedSkills: string[];
   missingSkills: string[];
+  extraSkills?: string[];
   relevantExperience: string[];
   relevantProjects: string[];
   summary: string;
+  improvementSuggestions?: string[];
+  atsTips?: string[];
+  missingKeywords?: string[];
   analyzedAt: Date;
 }
 
