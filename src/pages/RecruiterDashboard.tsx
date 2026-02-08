@@ -6,6 +6,7 @@ import { JobDescriptionInput } from "@/components/JobDescriptionInput";
 import { ResumeUpload } from "@/components/ResumeUpload";
 import { AnalysisProgress } from "@/components/AnalysisProgress";
 import { ResultsDashboard } from "@/components/ResultsDashboard";
+import { extractTextFromFile } from "@/lib/fileExtractor";
 import type { UploadedFile, AnalysisProgress as AnalysisProgressType, AnalysisResult, Candidate } from "@/types/resume";
 
 const RecruiterDashboard = () => {
@@ -35,22 +36,9 @@ const RecruiterDashboard = () => {
     setFiles((prev) => prev.filter((f) => f.id !== id));
   }, []);
 
-  const extractTextFromFile = async (file: File): Promise<string> => {
-    if (file.type === "text/plain" || file.name.endsWith(".txt")) {
-      return await file.text();
-    }
-    try {
-      const text = await file.text();
-      const cleanedText = text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, " ")
-        .replace(/\s+/g, " ").trim();
-      if (cleanedText.length < 50) {
-        return `Resume file: ${file.name}. Note: For best results with PDF/DOCX files, please paste the resume text directly or use a text file.`;
-      }
-      return cleanedText;
-    } catch {
-      return `Resume file: ${file.name}`;
-    }
-  };
+  // extractTextFromFile is now imported from @/lib/fileExtractor
+
+
 
   const handleAnalyze = async () => {
     if (!jobDescription.trim() || files.length === 0) {
