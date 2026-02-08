@@ -60,8 +60,8 @@ const Signup = () => {
     if (error) {
       toast.error(error.message || "Failed to create account");
     } else {
-      toast.success("Account created successfully! You can now log in.");
-      navigate("/login");
+      toast.success("Account created successfully!");
+      navigate("/");
     }
   };
 
