@@ -107,6 +107,14 @@ const CandidateDashboard = () => {
         improvementSuggestions: c.improvementSuggestions || [],
         atsTips: c.atsTips || [],
         missingKeywords: c.missingKeywords || [],
+        sectionScores: c.sectionScores || [],
+        experienceLevel: c.experienceLevel || "Unknown",
+        suggestedRoles: c.suggestedRoles || [],
+        actionWordsToAdd: c.actionWordsToAdd || [],
+        keywordDensity: c.keywordDensity || [],
+        grammarIssues: c.grammarIssues || [],
+        formattingScore: c.formattingScore || 0,
+        improvementChecklist: c.improvementChecklist || [],
         analyzedAt: new Date(),
       };
 

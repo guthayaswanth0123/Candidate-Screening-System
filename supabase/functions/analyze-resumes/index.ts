@@ -50,6 +50,14 @@ For the resume, you must analyze:
 6. Relevant projects
 7. ATS compatibility assessment
 8. Specific improvement suggestions
+9. Section-wise scoring (Skills, Experience, Projects, Education, Formatting) each 0-100
+10. Experience level detection (Fresher, Junior, Mid-Level, Senior) based on years and project count
+11. Suggested job roles the candidate is suitable for (3-5 roles)
+12. Missing powerful action words the candidate should use (e.g., Implemented, Designed, Optimized, Automated)
+13. Keyword density analysis - count occurrences of important JD keywords in the resume
+14. Grammar and spelling issues found in the resume with corrections
+15. Resume formatting score (0-100) based on font consistency, section order, length, bullet usage
+16. Improvement checklist - specific actionable items like "Add GitHub link", "Add certifications", etc.
 
 Scoring methodology:
 - Job Fit Score (0-100): Weighted combination of semantic similarity (40%) + skill match (30%) + experience relevance (20%) + ATS format (10%)
@@ -92,17 +100,35 @@ Be thorough but fair in your analysis. Look for both explicit mentions and impli
       "relevantExperience": ["Experience point 1"],
       "relevantProjects": ["Project description 1"],
       "summary": "Brief 2-sentence summary of the candidate's fit",
-      "improvementSuggestions": [
-        "Add keywords like 'machine learning' and 'deep learning' to your skills section",
-        "Quantify your achievements with numbers and metrics",
-        "Include more action verbs like 'designed', 'implemented', 'optimized'"
+      "improvementSuggestions": ["tip1", "tip2", "tip3"],
+      "atsTips": ["ats tip 1", "ats tip 2"],
+      "missingKeywords": ["keyword1", "keyword2"],
+      "sectionScores": [
+        {"section": "Skills", "score": 80},
+        {"section": "Experience", "score": 40},
+        {"section": "Projects", "score": 70},
+        {"section": "Education", "score": 60},
+        {"section": "Formatting", "score": 50}
       ],
-      "atsTips": [
-        "Use standard section headings like 'Experience', 'Education', 'Skills'",
-        "Avoid tables and complex formatting",
-        "Include the exact job title from the JD in your resume"
+      "experienceLevel": "Fresher",
+      "suggestedRoles": ["Data Analyst", "Junior Developer", "ML Intern"],
+      "actionWordsToAdd": ["Implemented", "Designed", "Optimized", "Automated", "Engineered"],
+      "keywordDensity": [
+        {"keyword": "Python", "count": 5},
+        {"keyword": "SQL", "count": 2},
+        {"keyword": "React", "count": 0}
       ],
-      "missingKeywords": ["keyword1", "keyword2"]
+      "grammarIssues": [
+        {"original": "Developed many project", "suggestion": "Developed many projects"}
+      ],
+      "formattingScore": 65,
+      "improvementChecklist": [
+        "Add 2 more projects",
+        "Add GitHub link",
+        "Add LinkedIn profile",
+        "Add certifications section",
+        "Improve professional summary"
+      ]
     }
   ]
 }`;
@@ -142,7 +168,7 @@ ${isCandidateMode ? candidateResponseFormat : recruiterResponseFormat}
 
 Extract the required skills from the job description first, then analyze each resume against those skills.
 Sort candidates by jobFitScore descending (best fit first).
-${isCandidateMode ? 'For extraSkills, identify skills the candidate has that are NOT in the job description but could be valuable. For improvementSuggestions, provide 3-5 specific, actionable tips. For atsTips, provide 2-4 ATS optimization tips. For missingKeywords, list important keywords from the JD not found in the resume.' : ''}`;
+${isCandidateMode ? 'For extraSkills, identify skills the candidate has that are NOT in the job description but could be valuable. For improvementSuggestions, provide 3-5 specific, actionable tips. For atsTips, provide 2-4 ATS optimization tips. For missingKeywords, list important keywords from the JD not found in the resume. For sectionScores, evaluate each section (Skills, Experience, Projects, Education, Formatting) individually 0-100. For experienceLevel, determine Fresher/Junior/Mid-Level/Senior based on years and projects. For suggestedRoles, suggest 3-5 job titles the candidate is suitable for. For actionWordsToAdd, suggest 5-8 powerful resume verbs missing. For keywordDensity, count occurrences of top 8 JD keywords in the resume. For grammarIssues, find 1-5 grammar/spelling issues with corrections. For formattingScore, rate 0-100. For improvementChecklist, give 5-8 specific actionable items.' : ''}`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

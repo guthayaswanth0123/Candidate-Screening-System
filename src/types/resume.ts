@@ -1,3 +1,18 @@
+export interface SectionScore {
+  section: string;
+  score: number;
+}
+
+export interface KeywordFrequency {
+  keyword: string;
+  count: number;
+}
+
+export interface GrammarIssue {
+  original: string;
+  suggestion: string;
+}
+
 export interface Candidate {
   id: string;
   name: string;
@@ -17,6 +32,15 @@ export interface Candidate {
   improvementSuggestions?: string[];
   atsTips?: string[];
   missingKeywords?: string[];
+  // New fields
+  sectionScores?: SectionScore[];
+  experienceLevel?: string;
+  suggestedRoles?: string[];
+  actionWordsToAdd?: string[];
+  keywordDensity?: KeywordFrequency[];
+  grammarIssues?: GrammarIssue[];
+  formattingScore?: number;
+  improvementChecklist?: string[];
   analyzedAt: Date;
 }
 
