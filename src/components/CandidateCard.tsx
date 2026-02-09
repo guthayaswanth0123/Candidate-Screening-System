@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { User, Mail, Briefcase, FolderOpen, ChevronDown, ChevronUp, Star, Bookmark } from "lucide-react";
+import { User, Mail, Briefcase, FolderOpen, ChevronDown, ChevronUp, Star, Bookmark, Tag } from "lucide-react";
 import { useState } from "react";
 import { ScoreGauge } from "./ScoreGauge";
 import { SkillBadge } from "./SkillBadge";
 import { CandidateNotes } from "./CandidateNotes";
+import { CandidateTags } from "./recruiter/CandidateTags";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import type { Candidate } from "@/types/resume";
@@ -141,6 +142,15 @@ export function CandidateCard({ candidate, rank, delay = 0 }: CandidateCardProps
         className="overflow-hidden"
       >
         <div className="pt-6 border-t border-border/50 mt-6 space-y-6">
+          {/* Candidate Tags */}
+          <div>
+            <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+              <Tag className="h-4 w-4 text-accent" />
+              Candidate Tags
+            </h4>
+            <CandidateTags candidateId={candidate.id} candidateName={candidate.name} />
+          </div>
+
           {/* Detailed Score Breakdown */}
           <div className="grid grid-cols-3 gap-4">
             <div className="p-4 bg-muted/30 rounded-lg text-center">

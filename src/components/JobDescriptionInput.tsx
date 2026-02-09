@@ -3,6 +3,14 @@ import { motion } from "framer-motion";
 import { FileText, Sparkles } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface JobDescriptionInputProps {
   value: string;
@@ -20,6 +28,10 @@ export function JobDescriptionInput({
   hasResumes,
 }: JobDescriptionInputProps) {
   const [isFocused, setIsFocused] = useState(false);
+  const [jobCategory, setJobCategory] = useState("");
+  const [experienceLevel, setExperienceLevel] = useState("");
+  const [location, setLocation] = useState("");
+  const [salaryRange, setSalaryRange] = useState("");
 
   const sampleJD = `Senior Software Engineer
 
@@ -72,6 +84,53 @@ Responsibilities:
           onBlur={() => setIsFocused(false)}
           placeholder="Paste the job description here..."
           className="min-h-[200px] resize-none bg-muted/30 border-border/50 focus:border-accent transition-colors"
+        />
+      </div>
+
+      {/* Job Metadata Fields */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+        <Select value={jobCategory} onValueChange={setJobCategory}>
+          <SelectTrigger className="bg-muted/30 border-border/50">
+            <SelectValue placeholder="Job Category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="frontend">Frontend</SelectItem>
+            <SelectItem value="backend">Backend</SelectItem>
+            <SelectItem value="fullstack">Full Stack</SelectItem>
+            <SelectItem value="ml">Machine Learning</SelectItem>
+            <SelectItem value="devops">DevOps</SelectItem>
+            <SelectItem value="data">Data Science</SelectItem>
+            <SelectItem value="mobile">Mobile</SelectItem>
+            <SelectItem value="hr">HR</SelectItem>
+            <SelectItem value="other">Other</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select value={experienceLevel} onValueChange={setExperienceLevel}>
+          <SelectTrigger className="bg-muted/30 border-border/50">
+            <SelectValue placeholder="Experience Level" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="intern">Intern</SelectItem>
+            <SelectItem value="junior">Junior (0-2 years)</SelectItem>
+            <SelectItem value="mid">Mid-Level (2-5 years)</SelectItem>
+            <SelectItem value="senior">Senior (5+ years)</SelectItem>
+            <SelectItem value="lead">Lead / Principal</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Input
+          placeholder="📍 Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="bg-muted/30 border-border/50"
+        />
+
+        <Input
+          placeholder="💰 Salary Range"
+          value={salaryRange}
+          onChange={(e) => setSalaryRange(e.target.value)}
+          className="bg-muted/30 border-border/50"
         />
       </div>
 
