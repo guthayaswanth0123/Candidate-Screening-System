@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import {
-  LayoutDashboard, PlusCircle, BarChart3,
+  LayoutDashboard, PlusCircle, BarChart3, Clock, Download,
   ChevronLeft, ChevronRight, Brain, LogOut, User,
 } from "lucide-react";
 import { useState } from "react";
@@ -16,8 +16,10 @@ interface RecruiterSidebarProps {
 
 const navItems = [
   { id: "home", label: "Dashboard", icon: LayoutDashboard },
-  { id: "analyze", label: "New Analysis", icon: PlusCircle },
+  { id: "analyze", label: "Resume Analyze", icon: PlusCircle },
   { id: "results", label: "Results", icon: BarChart3, requiresResults: true },
+  { id: "history", label: "History", icon: Clock },
+  { id: "reports", label: "Reports", icon: Download },
 ];
 
 export function RecruiterSidebar({ currentView, onViewChange, hasResults }: RecruiterSidebarProps) {
@@ -91,7 +93,6 @@ export function RecruiterSidebar({ currentView, onViewChange, hasResults }: Recr
 
       {/* Bottom Section */}
       <div className="p-3 border-t border-sidebar-border space-y-2">
-        {/* Collapse toggle */}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-colors text-xs"
@@ -100,7 +101,6 @@ export function RecruiterSidebar({ currentView, onViewChange, hasResults }: Recr
           {!collapsed && <span>Collapse</span>}
         </button>
 
-        {/* User Profile */}
         <div className="flex items-center gap-3 px-3 py-2">
           <div className="w-8 h-8 min-w-[32px] rounded-full bg-sidebar-accent flex items-center justify-center">
             <User className="h-4 w-4 text-sidebar-foreground" />
