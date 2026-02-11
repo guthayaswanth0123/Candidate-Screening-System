@@ -66,25 +66,43 @@ Scoring methodology:
 - ATS Score (0-100): How well-formatted the resume is for ATS systems
 
 Be thorough, fair, and constructive. The goal is to help the candidate improve.`
-      : `You are an expert HR analyst and technical recruiter. Your task is to analyze resumes against a job description and provide detailed scoring and analysis.
+      : `You are an expert HR analyst and technical recruiter. Your task is to analyze resumes against a job description and generate a complete recruiter decision report.
 
 For each resume, you must extract and analyze:
-1. Candidate name and email (if found)
-2. Skills mentioned in the resume
-3. Relevant work experience
-4. Relevant projects
-5. How well they match the job requirements
+1. Candidate name and email (if found in resume)
+2. LinkedIn, GitHub, and portfolio URLs (if found)
+3. Skills mentioned in the resume with proficiency level (Beginner/Intermediate/Advanced)
+4. Relevant work experience with years calculation
+5. Education details
+6. Certifications
+7. Relevant projects with technologies used
+8. Soft skills indicators (Communication, Leadership, Teamwork, Problem Solving, Adaptability) scored 0-100
+9. Risk factors (e.g., "No cloud experience", "Less than 2 years experience", "Missing key certifications")
+10. Strengths and weaknesses relative to the JD
+11. Role recommendations - suggest suitable job roles
+12. Final recruiter decision: Shortlist / Consider Later / Reject
 
-Scoring methodology:
-- Job Fit Score (0-100): Weighted average of semantic similarity (60%) and skill match (40%)
-- Semantic Score (0-100): How well the resume content aligns with the job description's requirements
-- Skill Match Score (0-100): Percentage of required skills found in the resume
+Scoring methodology (weighted multi-factor):
+- Skill Match – 40%
+- Experience – 25%
+- Education – 10%
+- Projects – 10%
+- Certifications – 5%
+- Soft Skills – 5%
+- Leadership – 5%
 
-Be thorough but fair in your analysis. Look for both explicit mentions and implicit evidence of skills.`;
+IMPORTANT SCORING RULES:
+- Job Fit Score (0-100): Weighted average using the above factors
+- Semantic Score (0-100): How well the resume content aligns with the job description
+- Skill Match Score (0-100): Percentage of required skills found
+- If zero relevant skills are found, the score MUST be 0. Do not assign random scores.
+- Scores must strictly be between 0 and 100.
+
+Be thorough but fair. Look for both explicit mentions and implicit evidence of skills.`;
 
     const candidateResponseFormat = `Return a JSON object with this exact structure (no markdown, just raw JSON):
 {
-  "requiredSkills": ["skill1", "skill2", ...],
+  "requiredSkills": ["skill1", "skill2"],
   "candidates": [
     {
       "fileName": "original filename",
@@ -135,19 +153,44 @@ Be thorough but fair in your analysis. Look for both explicit mentions and impli
 
     const recruiterResponseFormat = `Return a JSON object with this exact structure (no markdown, just raw JSON):
 {
-  "requiredSkills": ["skill1", "skill2", ...],
+  "requiredSkills": ["skill1", "skill2"],
   "candidates": [
     {
       "fileName": "original filename",
       "name": "Candidate Name or 'Unknown'",
       "email": "email@example.com or empty string",
+      "githubUrl": "https://github.com/user or empty string",
+      "linkedinUrl": "https://linkedin.com/in/user or empty string",
+      "portfolioUrl": "https://portfolio.com or empty string",
       "jobFitScore": 75,
       "semanticScore": 80,
       "skillMatchScore": 65,
       "matchedSkills": ["skill1", "skill2"],
       "missingSkills": ["skill3", "skill4"],
+      "extraSkills": ["additional_skill1"],
+      "skillProficiency": [
+        {"skill": "Python", "level": "Advanced"},
+        {"skill": "React", "level": "Intermediate"},
+        {"skill": "Docker", "level": "Beginner"}
+      ],
       "relevantExperience": ["Experience point 1", "Experience point 2"],
-      "relevantProjects": ["Project description 1", "Project description 2"],
+      "experienceYears": 3,
+      "experienceLevel": "Mid-Level",
+      "education": ["B.Tech Computer Science - XYZ University 2022"],
+      "certifications": ["AWS Cloud Practitioner", "Google Data Analytics"],
+      "relevantProjects": ["Project description 1"],
+      "softSkills": {
+        "communication": 70,
+        "leadership": 50,
+        "teamwork": 80,
+        "problemSolving": 75,
+        "adaptability": 65
+      },
+      "strengths": ["Strong Python and ML background", "Multiple relevant projects"],
+      "weaknesses": ["No cloud platform experience", "Limited frontend skills"],
+      "riskFactors": ["No cloud/DevOps exposure", "Less than 2 years experience"],
+      "suggestedRoles": ["Junior Data Scientist", "ML Engineer Intern"],
+      "recruiterDecision": "Shortlist",
       "summary": "Brief 2-sentence summary of the candidate's fit"
     }
   ]
@@ -168,7 +211,7 @@ ${isCandidateMode ? candidateResponseFormat : recruiterResponseFormat}
 
 Extract the required skills from the job description first, then analyze each resume against those skills.
 Sort candidates by jobFitScore descending (best fit first).
-${isCandidateMode ? 'For extraSkills, identify skills the candidate has that are NOT in the job description but could be valuable. For improvementSuggestions, provide 3-5 specific, actionable tips. For atsTips, provide 2-4 ATS optimization tips. For missingKeywords, list important keywords from the JD not found in the resume. For sectionScores, evaluate each section (Skills, Experience, Projects, Education, Formatting) individually 0-100. For experienceLevel, determine Fresher/Junior/Mid-Level/Senior based on years and projects. For suggestedRoles, suggest 3-5 job titles the candidate is suitable for. For actionWordsToAdd, suggest 5-8 powerful resume verbs missing. For keywordDensity, count occurrences of top 8 JD keywords in the resume. For grammarIssues, find 1-5 grammar/spelling issues with corrections. For formattingScore, rate 0-100. For improvementChecklist, give 5-8 specific actionable items.' : ''}`;
+${isCandidateMode ? 'For extraSkills, identify skills the candidate has that are NOT in the job description but could be valuable. For improvementSuggestions, provide 3-5 specific, actionable tips. For atsTips, provide 2-4 ATS optimization tips. For missingKeywords, list important keywords from the JD not found in the resume. For sectionScores, evaluate each section (Skills, Experience, Projects, Education, Formatting) individually 0-100. For experienceLevel, determine Fresher/Junior/Mid-Level/Senior based on years and projects. For suggestedRoles, suggest 3-5 job titles the candidate is suitable for. For actionWordsToAdd, suggest 5-8 powerful resume verbs missing. For keywordDensity, count occurrences of top 8 JD keywords in the resume. For grammarIssues, find 1-5 grammar/spelling issues with corrections. For formattingScore, rate 0-100. For improvementChecklist, give 5-8 specific actionable items.' : 'For skillProficiency, assess each matched and extra skill as Beginner/Intermediate/Advanced based on context clues. For softSkills, rate each indicator 0-100 based on evidence in resume. For riskFactors, identify 2-5 potential concerns. For strengths, list 2-4 key strengths. For weaknesses, list 2-4 areas of concern. For recruiterDecision, decide Shortlist (score>=70), Consider Later (score 40-69), or Reject (score<40). For suggestedRoles, recommend 2-4 suitable positions. Extract education, certifications, GitHub/LinkedIn/portfolio URLs if present.'}`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -183,7 +226,7 @@ ${isCandidateMode ? 'For extraSkills, identify skills the candidate has that are
           { role: "user", content: userPrompt },
         ],
         temperature: 0.3,
-        max_tokens: 8000,
+        max_tokens: 10000,
       }),
     });
 

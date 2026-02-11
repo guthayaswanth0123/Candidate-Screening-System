@@ -13,6 +13,19 @@ export interface GrammarIssue {
   suggestion: string;
 }
 
+export interface SkillProficiency {
+  skill: string;
+  level: 'Beginner' | 'Intermediate' | 'Advanced';
+}
+
+export interface SoftSkills {
+  communication: number;
+  leadership: number;
+  teamwork: number;
+  problemSolving: number;
+  adaptability: number;
+}
+
 export interface Candidate {
   id: string;
   name: string;
@@ -32,7 +45,7 @@ export interface Candidate {
   improvementSuggestions?: string[];
   atsTips?: string[];
   missingKeywords?: string[];
-  // New fields
+  // Section scores
   sectionScores?: SectionScore[];
   experienceLevel?: string;
   suggestedRoles?: string[];
@@ -41,6 +54,19 @@ export interface Candidate {
   grammarIssues?: GrammarIssue[];
   formattingScore?: number;
   improvementChecklist?: string[];
+  // Recruiter-enhanced fields
+  skillProficiency?: SkillProficiency[];
+  softSkills?: SoftSkills;
+  riskFactors?: string[];
+  strengths?: string[];
+  weaknesses?: string[];
+  recruiterDecision?: 'Shortlist' | 'Consider Later' | 'Reject';
+  experienceYears?: number;
+  education?: string[];
+  certifications?: string[];
+  githubUrl?: string;
+  linkedinUrl?: string;
+  portfolioUrl?: string;
   analyzedAt: Date;
 }
 

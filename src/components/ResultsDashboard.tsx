@@ -236,6 +236,7 @@ export function ResultsDashboard({ result, onReset }: ResultsDashboardProps) {
                 <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground">Skills</th>
                 <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground">Matched</th>
                 <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground">Missing</th>
+                <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground">Decision</th>
               </tr>
             </thead>
             <tbody>
@@ -265,13 +266,19 @@ export function ResultsDashboard({ result, onReset }: ResultsDashboardProps) {
                     <td className="py-3 px-4 text-center text-foreground">{Math.round(candidate.semanticScore)}%</td>
                     <td className="py-3 px-4 text-center text-foreground">{Math.round(candidate.skillMatchScore)}%</td>
                     <td className="py-3 px-4 text-center">
-                      <span className="px-2 py-1 rounded-full bg-success/20 text-success text-sm">
-                        {candidate.matchedSkills.length}
-                      </span>
+                      <span className="px-2 py-1 rounded-full bg-success/20 text-success text-sm">{candidate.matchedSkills.length}</span>
                     </td>
                     <td className="py-3 px-4 text-center">
-                      <span className="px-2 py-1 rounded-full bg-destructive/20 text-destructive text-sm">
-                        {candidate.missingSkills.length}
+                      <span className="px-2 py-1 rounded-full bg-destructive/20 text-destructive text-sm">{candidate.missingSkills.length}</span>
+                    </td>
+                    <td className="py-3 px-4 text-center">
+                      <span className={`px-2 py-1 rounded-full text-xs font-bold border ${
+                        candidate.recruiterDecision === "Shortlist" ? "bg-success/15 text-success border-success/30" :
+                        candidate.recruiterDecision === "Consider Later" ? "bg-warning/15 text-warning border-warning/30" :
+                        candidate.recruiterDecision === "Reject" ? "bg-destructive/15 text-destructive border-destructive/30" :
+                        "bg-muted text-muted-foreground border-border"
+                      }`}>
+                        {candidate.recruiterDecision || "—"}
                       </span>
                     </td>
                   </tr>

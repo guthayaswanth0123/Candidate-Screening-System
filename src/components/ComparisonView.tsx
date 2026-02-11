@@ -25,7 +25,6 @@ export function ComparisonView({ candidates }: ComparisonViewProps) {
     selectedCandidates.includes(c.id)
   );
 
-  // Get all unique skills from compared candidates
   const allSkills = new Set<string>();
   comparedCandidates.forEach((c) => {
     c.matchedSkills.forEach((s) => allSkills.add(s));
@@ -54,11 +53,7 @@ export function ComparisonView({ candidates }: ComparisonViewProps) {
             </p>
           </div>
         </div>
-        <ChevronDown
-          className={`h-5 w-5 text-muted-foreground transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
+        <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       <AnimatePresence>
@@ -71,7 +66,6 @@ export function ComparisonView({ candidates }: ComparisonViewProps) {
             className="border-t border-border"
           >
             <div className="p-6">
-              {/* Candidate Selection */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {candidates.map((candidate) => (
                   <Button
@@ -79,35 +73,26 @@ export function ComparisonView({ candidates }: ComparisonViewProps) {
                     variant={selectedCandidates.includes(candidate.id) ? "default" : "outline"}
                     size="sm"
                     onClick={() => toggleCandidate(candidate.id)}
-                    className={`${
-                      selectedCandidates.includes(candidate.id)
-                        ? "bg-accent hover:bg-accent/90 text-accent-foreground"
-                        : ""
-                    }`}
+                    className={selectedCandidates.includes(candidate.id)
+                      ? "bg-accent hover:bg-accent/90 text-accent-foreground" : ""}
                   >
                     {candidate.name}
                     {selectedCandidates.includes(candidate.id) && (
-                      <span className="ml-2 text-xs">
-                        #{selectedCandidates.indexOf(candidate.id) + 1}
-                      </span>
+                      <span className="ml-2 text-xs">#{selectedCandidates.indexOf(candidate.id) + 1}</span>
                     )}
                   </Button>
                 ))}
               </div>
 
-              {/* Comparison Table */}
               {comparedCandidates.length >= 2 ? (
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto space-y-6">
+                  {/* Score Comparison */}
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-border">
-                        <th className="text-left py-3 px-4 font-medium text-muted-foreground">
-                          Metric
-                        </th>
+                        <th className="text-left py-3 px-4 font-medium text-muted-foreground">Metric</th>
                         {comparedCandidates.map((c) => (
-                          <th key={c.id} className="text-center py-3 px-4 font-medium text-foreground">
-                            {c.name}
-                          </th>
+                          <th key={c.id} className="text-center py-3 px-4 font-medium text-foreground">{c.name}</th>
                         ))}
                       </tr>
                     </thead>
@@ -116,9 +101,7 @@ export function ComparisonView({ candidates }: ComparisonViewProps) {
                         <td className="py-4 px-4 text-muted-foreground">Job Fit Score</td>
                         {comparedCandidates.map((c) => (
                           <td key={c.id} className="text-center py-4 px-4">
-                            <div className="flex justify-center">
-                              <ScoreGauge score={c.jobFitScore} size="sm" showLabel={false} />
-                            </div>
+                            <div className="flex justify-center"><ScoreGauge score={c.jobFitScore} size="sm" showLabel={false} /></div>
                           </td>
                         ))}
                       </tr>
@@ -126,9 +109,7 @@ export function ComparisonView({ candidates }: ComparisonViewProps) {
                         <td className="py-4 px-4 text-muted-foreground">Semantic Match</td>
                         {comparedCandidates.map((c) => (
                           <td key={c.id} className="text-center py-4 px-4">
-                            <span className="text-lg font-semibold text-foreground">
-                              {Math.round(c.semanticScore)}%
-                            </span>
+                            <span className="text-lg font-semibold text-foreground">{Math.round(c.semanticScore)}%</span>
                           </td>
                         ))}
                       </tr>
@@ -136,9 +117,7 @@ export function ComparisonView({ candidates }: ComparisonViewProps) {
                         <td className="py-4 px-4 text-muted-foreground">Skill Match</td>
                         {comparedCandidates.map((c) => (
                           <td key={c.id} className="text-center py-4 px-4">
-                            <span className="text-lg font-semibold text-foreground">
-                              {Math.round(c.skillMatchScore)}%
-                            </span>
+                            <span className="text-lg font-semibold text-foreground">{Math.round(c.skillMatchScore)}%</span>
                           </td>
                         ))}
                       </tr>
@@ -146,9 +125,7 @@ export function ComparisonView({ candidates }: ComparisonViewProps) {
                         <td className="py-4 px-4 text-muted-foreground">Skills Matched</td>
                         {comparedCandidates.map((c) => (
                           <td key={c.id} className="text-center py-4 px-4">
-                            <span className="px-3 py-1 rounded-full bg-success/20 text-success font-medium">
-                              {c.matchedSkills.length}
-                            </span>
+                            <span className="px-3 py-1 rounded-full bg-success/20 text-success font-medium">{c.matchedSkills.length}</span>
                           </td>
                         ))}
                       </tr>
@@ -156,50 +133,108 @@ export function ComparisonView({ candidates }: ComparisonViewProps) {
                         <td className="py-4 px-4 text-muted-foreground">Skills Missing</td>
                         {comparedCandidates.map((c) => (
                           <td key={c.id} className="text-center py-4 px-4">
-                            <span className="px-3 py-1 rounded-full bg-destructive/20 text-destructive font-medium">
-                              {c.missingSkills.length}
-                            </span>
+                            <span className="px-3 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{c.missingSkills.length}</span>
                           </td>
                         ))}
                       </tr>
                       <tr className="border-b border-border/50">
-                        <td className="py-4 px-4 text-muted-foreground">Experience Items</td>
+                        <td className="py-4 px-4 text-muted-foreground">Experience</td>
                         {comparedCandidates.map((c) => (
                           <td key={c.id} className="text-center py-4 px-4 font-medium text-foreground">
-                            {c.relevantExperience.length}
+                            {c.experienceLevel || "—"}{c.experienceYears ? ` (${c.experienceYears}yr)` : ""}
                           </td>
                         ))}
                       </tr>
-                      <tr>
-                        <td className="py-4 px-4 text-muted-foreground">Projects</td>
+                      <tr className="border-b border-border/50">
+                        <td className="py-4 px-4 text-muted-foreground">Education</td>
+                        {comparedCandidates.map((c) => (
+                          <td key={c.id} className="text-center py-4 px-4 text-sm text-foreground">
+                            {c.education && c.education.length > 0 ? c.education[0] : "—"}
+                          </td>
+                        ))}
+                      </tr>
+                      <tr className="border-b border-border/50">
+                        <td className="py-4 px-4 text-muted-foreground">Certifications</td>
                         {comparedCandidates.map((c) => (
                           <td key={c.id} className="text-center py-4 px-4 font-medium text-foreground">
-                            {c.relevantProjects.length}
+                            {c.certifications ? c.certifications.length : 0}
+                          </td>
+                        ))}
+                      </tr>
+                      <tr className="border-b border-border/50">
+                        <td className="py-4 px-4 text-muted-foreground">Projects</td>
+                        {comparedCandidates.map((c) => (
+                          <td key={c.id} className="text-center py-4 px-4 font-medium text-foreground">{c.relevantProjects.length}</td>
+                        ))}
+                      </tr>
+                      <tr>
+                        <td className="py-4 px-4 text-muted-foreground">AI Decision</td>
+                        {comparedCandidates.map((c) => (
+                          <td key={c.id} className="text-center py-4 px-4">
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold border ${
+                              c.recruiterDecision === "Shortlist" ? "bg-success/15 text-success border-success/30" :
+                              c.recruiterDecision === "Consider Later" ? "bg-warning/15 text-warning border-warning/30" :
+                              c.recruiterDecision === "Reject" ? "bg-destructive/15 text-destructive border-destructive/30" :
+                              "bg-muted text-muted-foreground border-border"
+                            }`}>
+                              {c.recruiterDecision || "—"}
+                            </span>
                           </td>
                         ))}
                       </tr>
                     </tbody>
                   </table>
 
+                  {/* Soft Skills Comparison */}
+                  {comparedCandidates.some(c => c.softSkills) && (
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-3">Soft Skills Comparison</h4>
+                      <table className="w-full">
+                        <thead>
+                          <tr className="border-b border-border">
+                            <th className="text-left py-2 px-4 font-medium text-muted-foreground text-sm">Soft Skill</th>
+                            {comparedCandidates.map((c) => (
+                              <th key={c.id} className="text-center py-2 px-4 font-medium text-foreground text-sm">{c.name}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {["communication", "leadership", "teamwork", "problemSolving", "adaptability"].map(skill => {
+                            const labels: Record<string, string> = {
+                              communication: "Communication", leadership: "Leadership", teamwork: "Teamwork",
+                              problemSolving: "Problem Solving", adaptability: "Adaptability",
+                            };
+                            return (
+                              <tr key={skill} className="border-b border-border/50">
+                                <td className="py-2 px-4 text-sm text-muted-foreground">{labels[skill]}</td>
+                                {comparedCandidates.map(c => {
+                                  const val = c.softSkills ? (c.softSkills as any)[skill] || 0 : 0;
+                                  return (
+                                    <td key={c.id} className="text-center py-2 px-4">
+                                      <span className={`font-semibold text-sm ${val >= 70 ? "text-success" : val >= 40 ? "text-warning" : "text-destructive"}`}>
+                                        {val}
+                                      </span>
+                                    </td>
+                                  );
+                                })}
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
                   {/* Skill Comparison */}
-                  <div className="mt-6">
-                    <h4 className="text-sm font-medium text-muted-foreground mb-3">
-                      Skill Comparison
-                    </h4>
+                  <div>
+                    <h4 className="text-sm font-medium text-muted-foreground mb-3">Skill Comparison</h4>
                     <div className="grid gap-2">
                       {Array.from(allSkills).map((skill) => (
-                        <div
-                          key={skill}
-                          className="flex items-center gap-4 py-2 px-4 bg-muted/30 rounded-lg"
-                        >
-                          <span className="flex-1 text-sm font-medium text-foreground">
-                            {skill}
-                          </span>
+                        <div key={skill} className="flex items-center gap-4 py-2 px-4 bg-muted/30 rounded-lg">
+                          <span className="flex-1 text-sm font-medium text-foreground">{skill}</span>
                           {comparedCandidates.map((c) => (
                             <div key={c.id} className="w-20 text-center">
-                              {c.matchedSkills.some(
-                                (s) => s.toLowerCase() === skill.toLowerCase()
-                              ) ? (
+                              {c.matchedSkills.some((s) => s.toLowerCase() === skill.toLowerCase()) ? (
                                 <Check className="h-5 w-5 text-success mx-auto" />
                               ) : (
                                 <X className="h-5 w-5 text-destructive mx-auto" />
