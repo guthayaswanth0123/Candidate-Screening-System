@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend, PieChart, Pie, Cell } from "recharts";
 import type { AnalysisResult } from "@/types/resume";
 
 interface SkillsChartProps {
@@ -7,20 +7,39 @@ interface SkillsChartProps {
 }
 
 export function SkillsChart({ result }: SkillsChartProps) {
-  // Calculate skill coverage across all candidates
-  const skillCoverage = result.requiredSkills.map((skill) => {
+  // JD Required Skills - coverage across candidates
+  const jdSkillCoverage = result.requiredSkills.map((skill) => {
     const matchCount = result.candidates.filter((c) =>
       c.matchedSkills.some((s) => s.toLowerCase() === skill.toLowerCase())
     ).length;
     return {
       skill,
-      matched: matchCount,
-      missing: result.candidates.length - matchCount,
       coverage: Math.round((matchCount / result.candidates.length) * 100),
+      type: "JD Required",
     };
   });
 
-  // Score distribution
+  // Extra CV skills (skills present in CVs but NOT in JD)
+  const allExtraSkills = new Map<string, number>();
+  result.candidates.forEach((candidate) => {
+    const extras = candidate.extraSkills || [];
+    extras.forEach((skill) => {
+      const key = skill.toLowerCase();
+      allExtraSkills.set(key, (allExtraSkills.get(key) || 0) + 1);
+    });
+  });
+
+  const extraSkillData = Array.from(allExtraSkills.entries())
+    .map(([skill, count]) => ({
+      skill: skill.charAt(0).toUpperCase() + skill.slice(1),
+      count,
+      coverage: Math.round((count / result.candidates.length) * 100),
+      type: "Extra CV Skill",
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  // Score distribution pie chart
   const scoreDistribution = [
     {
       range: "90-100%",
@@ -43,8 +62,6 @@ export function SkillsChart({ result }: SkillsChartProps) {
       color: "hsl(0, 72%, 51%)",
     },
   ].filter((d) => d.count > 0);
-
-  const COLORS = ["hsl(173, 80%, 40%)", "hsl(158, 64%, 52%)", "hsl(38, 92%, 50%)", "hsl(0, 72%, 51%)"];
 
   return (
     <motion.div
@@ -93,14 +110,14 @@ export function SkillsChart({ result }: SkillsChartProps) {
           </div>
         </div>
 
-        {/* Skill Coverage Bar Chart */}
+        {/* JD Required Skills Coverage - Bar Chart */}
         <div>
           <h4 className="text-sm font-medium text-muted-foreground mb-4 text-center">
-            Skill Coverage Across Candidates
+            JD Required Skills — Candidate Coverage
           </h4>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={skillCoverage.slice(0, 8)} layout="vertical">
+              <BarChart data={jdSkillCoverage.slice(0, 8)} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis type="number" domain={[0, 100]} stroke="hsl(var(--muted-foreground))" />
                 <YAxis
@@ -125,9 +142,36 @@ export function SkillsChart({ result }: SkillsChartProps) {
         </div>
       </div>
 
+      {/* Extra CV Skills Bar Chart */}
+      {extraSkillData.length > 0 && (
+        <div className="mt-8">
+          <h4 className="text-sm font-medium text-muted-foreground mb-4 text-center">
+            Additional Skills Found in CVs (Not in JD)
+          </h4>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={extraSkillData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="skill" stroke="hsl(var(--muted-foreground))" tick={{ fontSize: 11 }} />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
+                <Tooltip
+                  contentStyle={{
+                    background: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                  }}
+                  formatter={(value: number) => [value, "Candidates"]}
+                />
+                <Bar dataKey="count" fill="hsl(var(--accent))" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
       {/* Skill Matrix */}
       <div className="mt-8">
-        <h4 className="text-sm font-medium text-muted-foreground mb-4">Skill Matrix</h4>
+        <h4 className="text-sm font-medium text-muted-foreground mb-4">Skill Matrix — JD Skills vs Candidates</h4>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
